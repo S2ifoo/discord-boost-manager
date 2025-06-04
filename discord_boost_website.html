@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discord Boost Pro - مدير تعزيز ديسكورد الاحترافي</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #667eea 100%);
+            min-height: 100vh;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* تأثيرات الخلفية */
+        .floating-shapes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .shape {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .shape:nth-child(1) { width: 100px; height: 100px; top: 10%; left: 10%; animation-delay: 0s; }
+        .shape:nth-child(2) { width: 150px; height: 150px; top: 70%; right: 10%; animation-delay: 3s; }
+        .shape:nth-child(3) { width: 80px; height: 80px; top: 50%; left: 5%; animation-delay: 6s; }
+        .shape:nth-child(4) { width: 120px; height: 120px; top: 30%; right: 20%; animation-delay: 9s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.3; }
+            50% { transform: translateY(-30px) rotate(180deg); opacity: 0.8; }
+        }
+
+        /* الشاشات */
+        .screen {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* الرأس */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: glow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { filter: brightness(1) drop-shadow(0 0 10px rgba(255, 107, 107, 0.3)); }
+            to { filter: brightness(1.3) drop-shadow(0 0 20px rgba(78, 205, 196, 0.5)); }
+        }
+
+        .header p {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+
+        /* البطاقات */
+        .card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 25px;
+            padding: 30px;
+            margin-bottom: 30px;
+            transition: all 0.4s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .card h2 {
+            margin-bottom: 25px;
+            color: #fff;
+            font-size: 1.8rem;
+            text-align: center;
+        }
+
+        /* النماذج */
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #fff;
+            font-size: 1.1rem;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        input::placeholder, textarea::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #4ecdc4;
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.02);
+            box-shadow: 0 0 20px rgba(78, 205, 196, 0.3);
+        }
+
+        /* الأزرار */
+        .btn {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a52);
+            color: white;
+            border: none;
+            padding: 16px 35px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            display: inline-block;
+            text-decoration: none;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.6s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(255, 107, 107, 0.4);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+        }
+
+        .btn-secondary:hover {
+            box-shadow: 0 15px 30px rgba(78, 205, 196, 0.4);
+        }
+
+        .btn-success {
+            background: linear-gradient(45deg, #2ecc71, #27ae60);
+        }
+
+        .btn-danger {
+            background: linear-gradient(45deg, #e74c3c, #c0392b);
+        }
+
+        /* شاشة تسجيل الدخول */
+        .auth-container {
+            max-width: 500px;
+            margin: 50px auto;
+        }
+
+        .auth-tabs {
+            display: flex;
+            margin-bottom: 30px;
+            border-radius: 15px;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .auth-tab {
+            flex: 1;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-size: 16px;
+        }
+
+        .auth-tab.active {
+            background: rgba(78, 205, 196, 0.3);
+        }
+
+        /* رسائل التنبيه */
+        .alert {
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            animation: slideIn 0.3s ease;
+        }
+
+        .alert-success {
+            background: rgba(46, 204, 113, 0.2);
+            border: 1px solid rgba(46, 204, 113, 0.5);
+            color: #2ecc71;
+        }
+
+        .alert-error {
+            background: rgba(231, 76, 60, 0.2);
+            border: 1px solid rgba(231, 76, 60, 0.5);
+            color: #e74c3c;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(-100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        /* Captcha */
+        .captcha-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .captcha-code {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 5px;
+            text-align: center;
+            min-width: 150px;
+            user-select: none;
+        }
+
+        .captcha-refresh {
+            background: rgba(78, 205, 196, 0.3);
+            border: none;
+            color: #fff;
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+            transition: all 0.3s ease;
+        }
+
+        .captcha-refresh:hover {
+            background: rgba(78, 205, 196, 0.5);
+            transform: rotate(180deg);
+        }
+
+        /* تحسين إدخال التوكنات */
+        .token-manager {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .token-input-area {
+            position: relative;
+        }
+
+        .token-counter {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            background: rgba(78, 205, 196, 0.8);
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .token-list {
+            max-height: 200px;
+            overflow-y: auto;
+            margin-top: 15px;
+        }
+
+        .token-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px 15px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: 'Courier New', monospace;
+        }
+
+        .token-remove {
+            background: rgba(231, 76, 60, 0.8);
+            border: none;
+            color: #fff;
+            padding: 5px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        /* لوحة التحكم الرئيسية */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .stat-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-item:hover {
+            transform: scale(1.05);
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #4ecdc4;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            opacity: 0.8;
+            font-size: 1.1rem;
+        }
+
+        /* شريط التقدم المحسن */
+        .progress-container {
+            margin: 30px 0;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 15px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4ecdc4, #44a08d, #4ecdc4);
+            width: 0%;
+            transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.3) 50%, transparent 70%);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .progress-text {
+            text-align: center;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        /* تحسينات الجوال */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .card {
+                padding: 20px;
+            }
+            
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* تأثيرات التحميل */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid #4ecdc4;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* تحسينات إضافية */
+        .feature-highlight {
+            background: linear-gradient(45deg, rgba(78, 205, 196, 0.2), rgba(255, 107, 107, 0.2));
+            border: 1px solid rgba(78, 205, 196, 0.5);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .status-online {
+            background: #2ecc71;
+            box-shadow: 0 0 10px rgba(46, 204, 113, 0.5);
+        }
+
+        .status-offline {
+            background: #e74c3c;
+        }
+
+        .status-warning {
+            background: #f39c12;
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+
+    <div class="container">
+        <!-- شاشة تسجيل الدخول -->
+        <div id="authScreen" class="screen active">
+            <div class="header">
+                <h1>🚀 Discord Boost Pro</h1>
+                <p>منصة التعزيز الاحترافية لسيرفرات Discord</p>
+            </div>
+
+            <div class="auth-container">
+                <div class="card">
+                    <div class="auth-tabs">
+                        <button class="auth-tab active" onclick="switchTab('login')">تسجيل الدخول</button>
+                        <button class="auth-tab" onclick="switchTab('register')">إنشاء حساب</button>
+                    </div>
+
+                    <div id="alerts"></div>
+
+                    <!-- نموذج تسجيل الدخول -->
+                    <div id="loginForm" class="auth-form">
+                        <div class="form-group">
+                            <label for="loginEmail">البريد الإلكتروني</label>
+                            <input type="email" id="loginEmail" placeholder="example@gmail.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="loginPassword">كلمة المرور</label>
+                            <input type="password" id="loginPassword" placeholder="••••••••" required>
+                        </div>
+                        <button class="btn btn-secondary" onclick="login()">دخول</button>
+                    </div>
+
+                    <!-- نموذج التسجيل -->
+                    <div id="registerForm" class="auth-form" style="display: none;">
+                        <div class="form-group">
+                            <label for="registerName">الاسم الكامل</label>
+                            <input type="text" id="registerName" placeholder="أحمد محمد" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="registerEmail">البريد الإلكتروني</label>
+                            <input type="email" id="registerEmail" placeholder="example@gmail.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="registerPassword">كلمة المرور</label>
+                            <input type="password" id="registerPassword" placeholder="••••••••" required>
+                        </div>
+                        
+                        <!-- Captcha -->
+                        <div class="captcha-container">
+                            <div class="captcha-code" id="captchaCode">ABCD5</div>
+                            <button type="button" class="captcha-refresh" onclick="generateCaptcha()">🔄</button>
+                        </div>
+                        <div class="form-group">
+                            <label for="captchaInput">اكتب الرمز الظاهر أعلاه</label>
+                            <input type="text" id="captchaInput" placeholder="ABCD5" required>
+                        </div>
+                        
+                        <button class="btn btn-success" onclick="register()">إنشاء حساب</button>
+                    </div>
+                </div>
+
+                <div class="feature-highlight">
+                    <h3>✨ مميزات المنصة</h3>
+                    <p>• إدارة متقدمة للتوكنات • تتبع العمليات المباشر • أمان عالي • دعم فني 24/7</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- شاشة التحقق من الإيميل -->
+        <div id="verificationScreen" class="screen">
+            <div class="header">
+                <h1>📧 تحقق من بريدك الإلكتروني</h1>
+                <p>تم إرسال رمز التحقق إلى بريدك الإلكتروني</p>
+            </div>
+
+            <div class="auth-container">
+                <div class="card">
+                    <div class="form-group">
+                        <label for="verificationCode">رمز التحقق</label>
+                        <input type="text" id="verificationCode" placeholder="123456" maxlength="6" required>
+                    </div>
+                    <button class="btn btn-success" onclick="verifyEmail()">تحقق</button>
+                    <button class="btn btn-secondary" onclick="resendCode()">إعادة إرسال</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- لوحة التحكم الرئيسية -->
+        <div id="dashboardScreen" class="screen">
+            <div class="header">
+                <h1>🎮 لوحة التحكم</h1>
+                <p>مرحباً بك، <span id="userName">المستخدم</span> 
+                    <span class="status-indicator status-online"></span>
+                    <button class="btn btn-danger" onclick="logout()" style="float: left; margin-top: -10px;">خروج</button>
+                </p>
+            </div>
+
+            <div class="dashboard-grid">
+                <!-- إدارة التوكنات -->
+                <div class="card">
+                    <h2>🔑 إدارة التوكنات</h2>
+                    <div class="token-manager">
+                        <div class="token-input-area">
+                            <textarea id="tokensInput" placeholder="أدخل توكنات Discord هنا (كل توكن في سطر منفصل)" rows="4"></textarea>
+                            <div class="token-counter" id="tokenCounter">0 توكن</div>
+                        </div>
+                        <button class="btn btn-secondary" onclick="addTokens()">إضافة التوكنات</button>
+                        <button class="btn btn-danger" onclick="clearTokens()">مسح الكل</button>
+                    </div>
+                    <div class="token-list" id="tokenList"></div>
+                </div>
+
+                <!-- إعدادات التعزيز -->
+                <div class="card">
+                    <h2>⚙️ إعدادات التعزيز</h2>
+                    <div class="form-group">
+                        <label for="serverId">معرف السيرفر</label>
+                        <input type="text" id="serverId" placeholder="123456789012345678">
+                    </div>
+                    <div class="form-group">
+                        <label for="boostCount">عدد التعزيزات</label>
+                        <input type="number" id="boostCount" min="1" max="100" value="1">
+                    </div>
+                    <div class="form-group">
+                        <label for="delay">التأخير (ثانية)</label>
+                        <input type="number" id="delay" min="1" max="60" value="5">
+                    </div>
+                    <div class="form-group">
+                        <label for="mode">وضع التشغيل</label>
+                        <select id="mode">
+                            <option value="sequential">تسلسلي</option>
+                            <option value="random">عشوائي</option>
+                            <option value="parallel">متوازي</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-success" onclick="startBoosting()" id="startBtn">🚀 بدء التعزيز</button>
+                    <button class="btn btn-danger" onclick="stopBoosting()" id="stopBtn" style="display: none;">⏹️ إيقاف</button>
+                </div>
+            </div>
+
+            <!-- الإحصائيات والتقدم -->
+            <div class="card">
+                <h2>📊 الإحصائيات والتقدم</h2>
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressBar"></div>
+                    </div>
+                    <div class="progress-text" id="progressText">0% مكتمل</div>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-number" id="totalTokens">0</div>
+                        <div class="stat-label">إجمالي التوكنات</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="activeTokens">0</div>
+                        <div class="stat-label">التوكنات النشطة</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="completedBoosts">0</div>
+                        <div class="stat-label">التعزيزات المكتملة</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="errorCount">0</div>
+                        <div class="stat-label">الأخطاء</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- سجل العمليات -->
+            <div class="card">
+                <h2>📝 سجل العمليات</h2>
+                <div id="operationLog" style="max-height: 300px; overflow-y: auto; background: rgba(0,0,0,0.2); padding: 15px; border-radius: 10px;">
+                    <p style="opacity: 0.7; text-align: center;">لا توجد عمليات بعد</p>
+                </div>
+            </div>
+
+            <!-- تحميل -->
+            <div class="loading" id="loadingIndicator">
+                <div class="spinner"></div>
+                <p>جاري المعالجة...</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // متغيرات عامة
+        let currentUser = null;
+        let tokens = [];
+        let isRunning = false;
+        let currentBoostCount = 0;
+        let targetBoostCount = 0;
+        let captchaCode = '';
+
+        // بيانات وهمية للمحاكاة
+        const users = {};
+        const userSessions = {};
+
+        // بدء التطبيق
+        document.addEventListener('DOMContentLoaded', function() {
+            generateCaptcha();
+            checkSession();
+        });
+
+        // إدارة الجلسات
+        function checkSession() {
+            const savedUser = sessionStorage.getItem('currentUser');
+            if (savedUser) {
+                currentUser = JSON.parse(savedUser);
+                showDashboard();
+            }
+        }
+
+        function saveSession() {
+            sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
+        }
+
+        // التبديل بين علامات التبويب
+        function switchTab(tab) {
+            document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.auth-form').forEach(f => f.style.display = 'none');
+            
+            if (tab === 'login') {
+                document.querySelector('.auth-tab').classList.add('active');
+                document.getElementById('loginForm').style.display = 'block';
+            } else {
+                document.querySelectorAll('.auth-tab')[1].classList.add('active');
+                document.getElementById('registerForm').style.display = 'block';
+            }
+        }
+
+        // توليد Captcha
+        function generateCaptcha() {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            captchaCode = '';
+            for (let i = 0; i < 5; i++) {
+                captchaCode += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            document.getElementById('captchaCode').textContent = captchaCode;
+        }
+
+        // عرض التنبيهات
+        function showAlert(message, type = 'error') {
+            const alertsContainer = document.getElementById('alerts');
+            const alert = document.createElement('div');
+            alert.className = `alert alert-${type}`;
+            alert.textContent = message;
+            alertsContainer.appendChild(alert);
+            
+            setTimeout(() => {
+                alert.remove();
+            }, 5000);
+        }
+
+        // تسجيل حساب جديد
+        async function register() {
+            const name = document.getElementById('registerName').value.trim();
+            const email = document.getElementById('registerEmail').value.trim();
+            const password = document.getElementById('registerPassword').value;
+            const captchaInput = document.getElementById('captchaInput').value.toUpperCase();
+
+            // التحقق من البيانات
+            if (!name || !email || !password) {
+                showAlert('يرجى ملء جميع الحقول');
+                return;
+            }
+
+            if (password.length < 6) {
+                showAlert('كلمة المرور يجب أن تكون 6 أحرف على الأقل');
+                return;
+            }
+
+            if (captchaInput !== captchaCode) {
+                showAlert('رمز التحقق غير صحيح');
+                generateCaptcha();
+                document.getElementById('captchaInput').value = '';
+                return;
+            }
+
+            // التحقق من وجود المستخدم
+            if (users[email]) {
+                showAlert('هذا البريد الإلكتروني مستخدم بالفعل');
+                return;
+            }
+
+            // إنشاء المستخدم
+            users[email] = {
+                name: name,
+                email: email,
+                password: password,
+                verified: false,
+                verificationCode: Math.floor(100000 + Math.random() * 900000).toString(),
+                tokens: [],
+                createdAt: new Date().toISOString()
+            };
+
+            // محاكاة إرسال الإيميل
+            console.log(`رمز التحقق لـ ${email}: ${users[email].verificationCode}`);
+            
+            currentUser = users[email];
+            showAlert('تم إنشاء الحساب بنجاح! تحقق من بريدك الإلكتروني', 'success');
+            
+            setTimeout(() => {
+                showScreen('verificationScreen');
+            }, 1500);
+        }
+
+        // تسجيل الدخول
+        async function login() {
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value;
+
+            if (!email || !password) {
+                showAlert('يرجى إدخال البريد الإلكتروني وكلمة المرور');
+                return;
+            }
+
+            // التحقق من المستخدم
+            if (!users[email] || users[email].password !== password) {
+                showAlert('بيانات الدخول غير صحيحة');
+                return;
+            }
+
+            if (!users[email].verified) {
+                currentUser = users[email];
+                showAlert('يجب تأكيد البريد الإلكتروني أولاً', 'error');
+                showScreen('verificationScreen');
+                return;
+            }
+
+            currentUser = users[email];
+            tokens = currentUser.tokens || [];
+            saveSession();
+            showAlert('تم تسجيل الدخول بنجاح!', 'success');
+            
+            setTimeout(() => {
+                showDashboard();
+            }, 1000);
+        }
+
+        // تحقق من الإيميل
+        function verifyEmail() {
+            const code = document.getElementById('verificationCode').value.trim();
+            
+            if (!currentUser) {
+                showAlert('حدث خطأ، يرجى المحاولة مرة أخرى');
+                return;
+            }
+
+            if (code !== currentUser.verificationCode) {
+                showAlert('رمز التحقق غير صحيح');
+                return;
+            }
+
+            currentUser.verified = true;
+            users[currentUser.email] = currentUser;
+            saveSession();
+            
+            showAlert('تم تأكيد البريد الإلكتروني بنجاح!', 'success');
+            
+            setTimeout(() => {
+                showDashboard();
+            }, 1000);
+        }
+
+        // إعادة إرسال رمز التحقق
+        function resendCode() {
+            if (!currentUser) return;
+            
+            currentUser.verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
+            users[currentUser.email] = currentUser;
+            
+            console.log(`رمز التحقق الجديد لـ ${currentUser.email}: ${currentUser.verificationCode}`);
+            showAlert('تم إرسال رمز تحقق جديد', 'success');
+        }
+
+        // عرض لوحة التحكم
+        function showDashboard() {
+            showScreen('dashboardScreen');
+            document.getElementById('userName').textContent = currentUser.name;
+            updateTokenDisplay();
+            updateStats();
+        }
+
+        // عرض الشاشات
+        function showScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(screen => {
+                screen.classList.remove('active');
+            });
+            document.getElementById(screenId).classList.add('active');
+        }
+
+        // تسجيل الخروج
+        function logout() {
+            sessionStorage.removeItem('currentUser');
+            currentUser = null;
+            tokens = [];
+            isRunning = false;
+            showScreen('authScreen');
+            showAlert('تم تسجيل الخروج بنجاح', 'success');
+        }
+
+        // إدارة التوكنات
+        function addTokens() {
+            const input = document.getElementById('tokensInput').value.trim();
+            if (!input) {
+                showAlert('يرجى إدخال التوكنات');
+                return;
+            }
+
+            const newTokens = input.split('\n')
+                .map(token => token.trim())
+                .filter(token => token.length > 0)
+                .filter(token => !tokens.some(t => t.value === token));
+
+            newTokens.forEach(tokenValue => {
+                tokens.push({
+                    id: Date.now() + Math.random(),
+                    value: tokenValue,
+                    status: 'ready',
+                    boosts: 0,
+                    addedAt: new Date().toISOString()
+                });
+            });
+
+            // حفظ في قاعدة البيانات الوهمية
+            currentUser.tokens = tokens;
+            users[currentUser.email] = currentUser;
+            saveSession();
+
+            document.getElementById('tokensInput').value = '';
+            updateTokenDisplay();
+            updateStats();
+            logOperation(`تم إضافة ${newTokens.length} توكن جديد`);
+            showAlert(`تم إضافة ${newTokens.length} توكن بنجاح`, 'success');
+        }
+
+        function clearTokens() {
+            if (confirm('هل أنت متأكد من مسح جميع التوكنات؟')) {
+                tokens = [];
+                currentUser.tokens = [];
+                users[currentUser.email] = currentUser;
+                saveSession();
+                
+                updateTokenDisplay();
+                updateStats();
+                logOperation('تم مسح جميع التوكنات');
+                showAlert('تم مسح جميع التوكنات', 'success');
+            }
+        }
+
+        function removeToken(tokenId) {
+            tokens = tokens.filter(token => token.id !== tokenId);
+            currentUser.tokens = tokens;
+            users[currentUser.email] = currentUser;
+            saveSession();
+            
+            updateTokenDisplay();
+            updateStats();
+            logOperation('تم حذف توكن');
+        }
+
+        function updateTokenDisplay() {
+            const tokenList = document.getElementById('tokenList');
+            const tokenCounter = document.getElementById('tokenCounter');
+            
+            tokenCounter.textContent = `${tokens.length} توكن`;
+            
+            if (tokens.length === 0) {
+                tokenList.innerHTML = '<p style="text-align: center; opacity: 0.7;">لا توجد توكنات محفوظة</p>';
+                return;
+            }
+
+            tokenList.innerHTML = tokens.map(token => `
+                <div class="token-item">
+                    <div>
+                        <span class="status-indicator ${getStatusClass(token.status)}"></span>
+                        <code>${token.value.substring(0, 20)}...${token.value.slice(-10)}</code>
+                        <small style="display: block; opacity: 0.7;">${getStatusText(token.status)} | ${token.boosts} تعزيز</small>
+                    </div>
+                    <button class="token-remove" onclick="removeToken('${token.id}')">حذف</button>
+                </div>
+            `).join('');
+        }
+
+        function getStatusClass(status) {
+            const statusMap = {
+                'ready': 'status-online',
+                'active': 'status-warning',
+                'completed': 'status-online',
+                'error': 'status-offline'
+            };
+            return statusMap[status] || 'status-offline';
+        }
+
+        function getStatusText(status) {
+            const statusMap = {
+                'ready': 'جاهز',
+                'active': 'يعمل',
+                'completed': 'مكتمل',
+                'error': 'خطأ'
+            };
+            return statusMap[status] || status;
+        }
+
+        // تحديث الإحصائيات
+        function updateStats() {
+            document.getElementById('totalTokens').textContent = tokens.length;
+            document.getElementById('activeTokens').textContent = tokens.filter(t => t.status === 'active').length;
+            document.getElementById('completedBoosts').textContent = currentBoostCount;
+            document.getElementById('errorCount').textContent = tokens.filter(t => t.status === 'error').length;
+            
+            const progress = targetBoostCount > 0 ? (currentBoostCount / targetBoostCount) * 100 : 0;
+            document.getElementById('progressBar').style.width = progress + '%';
+            document.getElementById('progressText').textContent = `${Math.round(progress)}% مكتمل (${currentBoostCount}/${targetBoostCount})`;
+        }
+
+        // بدء عملية التعزيز
+        async function startBoosting() {
+            if (tokens.length === 0) {
+                showAlert('يرجى إضافة التوكنات أولاً');
+                return;
+            }
+
+            const serverId = document.getElementById('serverId').value.trim();
+            if (!serverId) {
+                showAlert('يرجى إدخال معرف السيرفر');
+                return;
+            }
+
+            targetBoostCount = parseInt(document.getElementById('boostCount').value);
+            const delay = parseInt(document.getElementById('delay').value) * 1000;
+            const mode = document.getElementById('mode').value;
+
+            isRunning = true;
+            currentBoostCount = 0;
+            
+            document.getElementById('startBtn').style.display = 'none';
+            document.getElementById('stopBtn').style.display = 'inline-block';
+            document.getElementById('loadingIndicator').style.display = 'block';
+
+            logOperation(`بدء عملية التعزيز | السيرفر: ${serverId} | العدد: ${targetBoostCount} | الوضع: ${mode}`);
+
+            try {
+                // محاكاة عملية التعزيز الحقيقية
+                await performBoosting(serverId, targetBoostCount, delay, mode);
+                
+                if (isRunning) {
+                    showAlert('تم إكمال عملية التعزيز بنجاح!', 'success');
+                    logOperation('تم إكمال عملية التعزيز بنجاح');
+                }
+            } catch (error) {
+                showAlert('حدث خطأ أثناء التعزيز: ' + error.message);
+                logOperation('خطأ: ' + error.message);
+            } finally {
+                stopBoosting();
+            }
+        }
+
+        // محاكاة عملية التعزيز (في التطبيق الحقيقي، ستتم عبر Discord API)
+        async function performBoosting(serverId, count, delay, mode) {
+            for (let i = 0; i < count && isRunning; i++) {
+                const tokenIndex = mode === 'random' ? 
+                    Math.floor(Math.random() * tokens.length) : 
+                    i % tokens.length;
+
+                const token = tokens[tokenIndex];
+                token.status = 'active';
+                updateTokenDisplay();
+                updateStats();
+
+                logOperation(`محاولة تعزيز باستخدام التوكن #${tokenIndex + 1}`);
+
+                // محاكاة استدعاء Discord API
+                try {
+                    await simulateDiscordBoost(token, serverId);
+                    
+                    // محاكاة نجاح/فشل العملية
+                    const success = Math.random() > 0.15; // 85% نسبة نجاح
+                    
+                    if (success) {
+                        token.status = 'completed';
+                        token.boosts++;
+                        currentBoostCount++;
+                        logOperation(`✅ نجح التعزيز #${currentBoostCount}`);
+                    } else {
+                        token.status = 'error';
+                        logOperation(`❌ فشل التعزيز للتوكن #${tokenIndex + 1}`);
+                    }
+                } catch (error) {
+                    token.status = 'error';
+                    logOperation(`❌ خطأ في التوكن #${tokenIndex + 1}: ${error.message}`);
+                }
+
+                updateTokenDisplay();
+                updateStats();
+
+                if (i < count - 1 && isRunning) {
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                }
+            }
+        }
+
+        // محاكاة استدعاء Discord API
+        async function simulateDiscordBoost(token, serverId) {
+            // في التطبيق الحقيقي، ستتم هنا العملية الفعلية مع Discord API
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    // محاكاة تحقق من صحة التوكن
+                    if (token.value.length < 50) {
+                        reject(new Error('توكن غير صالح'));
+                        return;
+                    }
+                    
+                    // محاكاة عملية البوست إلى السيرفر
+                    resolve({ success: true });
+                }, 1000 + Math.random() * 2000); // تأخير عشوائي
+            });
+        }
+
+        // إيقاف عملية التعزيز
+        function stopBoosting() {
+            isRunning = false;
+            document.getElementById('startBtn').style.display = 'inline-block';
+            document.getElementById('stopBtn').style.display = 'none';
+            document.getElementById('loadingIndicator').style.display = 'none';
+            
+            // إعادة تعيين حالة التوكنات النشطة
+            tokens.forEach(token => {
+                if (token.status === 'active') {
+                    token.status = 'ready';
+                }
+            });
+            
+            // حفظ التحديثات
+            currentUser.tokens = tokens;
+            users[currentUser.email] = currentUser;
+            saveSession();
+            
+            updateTokenDisplay();
+            updateStats();
+            logOperation('تم إيقاف عملية التعزيز');
+        }
+
+        // تسجيل العمليات
+        function logOperation(message) {
+            const logContainer = document.getElementById('operationLog');
+            const timestamp = new Date().toLocaleString('ar-SA');
+            
+            const logEntry = document.createElement('div');
+            logEntry.style.cssText = 'margin-bottom: 8px; padding: 8px; background: rgba(255,255,255,0.1); border-radius: 5px; border-left: 3px solid #4ecdc4;';
+            logEntry.innerHTML = `<small style="opacity: 0.7;">${timestamp}</small><br>${message}`;
+            
+            logContainer.insertBefore(logEntry, logContainer.firstChild);
+            
+            // الحفاظ على آخر 50 عملية فقط
+            const entries = logContainer.children;
+            if (entries.length > 50) {
+                logContainer.removeChild(entries[entries.length - 1]);
+            }
+        }
+
+        // تحديث الإحصائيات كل 3 ثوان
+        setInterval(() => {
+            if (currentUser) {
+                updateStats();
+            }
+        }, 3000);
+
+        // إضافة مؤثرات صوتية (اختيارية)
+        function playSound(type) {
+            // يمكن إضافة أصوات للتنبيهات والعمليات
+            // const audio = new Audio(`sounds/${type}.mp3`);
+            // audio.play().catch(() => {}); // تجاهل الأخطاء
+        }
+    </script>
+</body>
+</html>
