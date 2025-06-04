@@ -723,6 +723,12 @@ emailjs.send('service_bmcshbx', 'template_a3fhz88', {
     showAlert('حدث خطأ أثناء إرسال رمز التحقق، حاول مرة أخرى');
 });
 // أضف هذه الوظائف للتحكم الفعلي بـ Discord:
+                    if (captchaInput !== captchaCode) {
+                showAlert('رمز التحقق غير صحيح');
+                generateCaptcha();
+                document.getElementById('captchaInput').value = '';
+                return;
+            }
 
 class DiscordAPI {
     constructor(token) {
@@ -915,12 +921,7 @@ emailjs.init("GhwuRKGh3VNX-u2pC");
                 return;
             }
 
-            if (captchaInput !== captchaCode) {
-                showAlert('رمز التحقق غير صحيح');
-                generateCaptcha();
-                document.getElementById('captchaInput').value = '';
-                return;
-            }
+
 
             // التحقق من وجود المستخدم
             if (users[email]) {
