@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Discord Boost Pro - مدير تعزيز ديسكورد الاحترافي</title>
@@ -708,6 +709,126 @@
     </div>
 
     <script>
+        // إرسال رمز التحقق عبر EmailJS
+emailjs.send('service_bmcshbx', 'template_a3fhz88', {
+    to_email: email,
+    to_name: name,
+    verification_code: users[email].verificationCode
+}, 'GhwuRKGh3VNX-u2pC') 
+.then(() => {
+    console.log('تم إرسال رمز التحقق إلى البريد الإلكتروني');
+})
+.catch(error => {
+    console.error('خطأ أثناء إرسال البريد الإلكتروني:', error);
+    showAlert('حدث خطأ أثناء إرسال رمز التحقق، حاول مرة أخرى');
+});
+// أضف هذه الوظائف للتحكم الفعلي بـ Discord:
+
+class DiscordAPI {
+    constructor(token) {
+        this.token = token;
+        this.baseURL = 'https://discord.com/api/v10';
+    }
+
+    async boostServer(serverId) {
+        try {
+            const response = await fetch(`${this.baseURL}/guilds/${serverId}/premium/subscriptions`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bot ${this.token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    // بيانات التعزيز
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            return await response.json();
+        } catch (error) {
+            throw new Error(`Discord API Error: ${error.message}`);
+        }
+    }
+
+    async validateToken() {
+        try {
+            const response = await fetch(`${this.baseURL}/users/@me`, {
+                headers: {
+                    'Authorization': `Bot ${this.token}`
+                }
+            });
+            return response.ok;
+        } catch (error) {
+            return false;
+        }
+    }
+}
+
+// استخدام الكلاس:
+async function performRealBoosting(token, serverId) {
+    const discord = new DiscordAPI(token);
+    
+    // تحقق من صحة التوكن
+    const isValid = await discord.validateToken();
+    if (!isValid) {
+        throw new Error('توكن غير صالح');
+    }
+
+    // تنفيذ التعزيز
+    return await discord.boostServer(serverId);
+}
+// تشفير كلمات المرور
+async function hashPassword(password) {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(password);
+    const hash = await crypto.subtle.digest('SHA-256', data);
+    return Array.from(new Uint8Array(hash))
+        .map(b => b.toString(16).padStart(2, '0'))
+        .join('');
+}
+
+// التحقق من قوة كلمة المرور
+function validatePassword(password) {
+    const minLength = 8;
+    const hasUpperCase = /[A-Z]/.test(password);
+    const hasLowerCase = /[a-z]/.test(password);
+    const hasNumbers = /\d/.test(password);
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+
+    return password.length >= minLength && 
+           hasUpperCase && hasLowerCase && 
+           hasNumbers && hasSpecialChar;
+}
+
+// حماية من الهجمات
+function rateLimiter() {
+    const requests = new Map();
+    
+    return function(ip) {
+        const now = Date.now();
+        const windowMs = 15 * 60 * 1000; // 15 دقيقة
+        const max = 100; // حد أقصى 100 طلب
+
+        if (!requests.has(ip)) {
+            requests.set(ip, []);
+        }
+
+        const userRequests = requests.get(ip);
+        const recentRequests = userRequests.filter(time => now - time < windowMs);
+
+        if (recentRequests.length >= max) {
+            throw new Error('تم تجاوز الحد الأقصى للطلبات');
+        }
+
+        recentRequests.push(now);
+        requests.set(ip, recentRequests);
+    };
+}
+emailjs.init("GhwuRKGh3VNX-u2pC");
+
         // متغيرات عامة
         let currentUser = null;
         let tokens = [];
